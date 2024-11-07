@@ -31,7 +31,7 @@ const pointLight = new THREE.PointLight(0xffffff, 1.5, 1000); // White light wit
 pointLight.position.set(0, 0, 100); // Position the light slightly farther
 scene.add(pointLight);
 
-// Set up skill spheres
+// Set up skill spheres and add titles below them
 setupCVSphere(scene, camera);
 setupITSphere(scene, camera);
 setupGDSphere(scene, camera);
@@ -39,6 +39,7 @@ setupGDSphere(scene, camera);
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
+    TWEEN.update(); // Update tweens during each frame
     renderer.render(scene, camera);
 }
 

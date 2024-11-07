@@ -1,14 +1,54 @@
-function setupITSphere(scene, camera, position = { x: 0, y: -60, z: -100 }) {
+
+
+function setupITSphere(scene, camera, position = { x: -200, y: -60, z: -100 }) {
     const itMaterial = new THREE.MeshPhongMaterial({
-        color: 0x0000ff, // Blue for IT
-        emissive: 0x0000ff,
-        emissiveIntensity: 1,
+        color: 0xff0000, // Red for Information Technology
+        emissive: 0xff0000,
+        emissiveIntensity: 100,
         shininess: 100
     });
-    const itSphere = new THREE.Mesh(new THREE.SphereGeometry(10, 32, 32), itMaterial);
-    itSphere.position.set(position.x, position.y, position.z);
-    itSphere.userData.skillName = 'Information Technology';
-    scene.add(itSphere);
+
+    // Create a rotating cube
+    const itCube = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10), itMaterial);
+    itCube.position.set(position.x, position.y, position.z);
+    itCube.userData.skillName = 'Information Technology';
+    scene.add(itCube);
+
+    // Create title below the cube
+    let textMesh = null;
+
+    function createTitleText(text, position) {
+        const loader = new THREE.FontLoader();
+        loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
+            const geometry = new THREE.TextGeometry(text, {
+                font: font,
+                size: 5,
+                height: 1,
+            });
+
+            const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            textMesh = new THREE.Mesh(geometry, material);
+            textMesh.position.set(position.x - 45, position.y - 30, position.z);
+            scene.add(textMesh);
+        });
+    }
+
+    createTitleText('Information Technology', position);
+
+    function updateTextOrientation() {
+        if (textMesh) {
+            textMesh.lookAt(camera.position);
+        }
+    }
+
+    // Call updateTextOrientation during the animation/render loop
+    function animate() {
+        requestAnimationFrame(animate);
+        updateTextOrientation();
+        itCube.rotation.x += 0.01; // Make the cube rotate around the X-axis
+        itCube.rotation.y += 0.01; // Make the cube rotate around the Y-axis
+    }
+    animate();
 
     function zoomToPoint(camera, position) {
         new TWEEN.Tween(camera.position)
@@ -29,9 +69,9 @@ function setupITSphere(scene, camera, position = { x: 0, y: -60, z: -100 }) {
         );
         raycaster.setFromCamera(mouse, camera);
 
-        const intersects = raycaster.intersectObjects([itSphere]);
+        const intersects = raycaster.intersectObjects([itCube]);
         if (intersects.length > 0) {
-            zoomToPoint(camera, itSphere.position);
+            zoomToPoint(camera, itCube.position);
             displayMessage("This is the Information Technology section. Add more details here.");
         }
     });
