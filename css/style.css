@@ -1,0 +1,16 @@
+/* styles.css */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    overflow: hidden; /* Prevent scrolling */
+    height: 100%;    /* Ensure full height */
+}
+
+#torq3 {
+    width: 100vw;    /* Full viewport width */
+    height: 100vh;   /* Full viewport height */
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Tree</title>
+    <!-- Link to external CSS files -->
+    <link rel="stylesheet" href="css/cv.css">
+    <link rel="stylesheet" href="css/it.css">
+    <link rel="stylesheet" href="css/gd.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Rotating Background -->
+    <div id="torq3"></div>
+
+    <!-- Skill Points -->
+    <div id="cv" class="skill-point" title="Curriculum Vitae"></div>
+    <div id="it" class="skill-point" title="Information Technology"></div>
+    <div id="graphic-design" class="skill-point" title="Graphic Design"></div>
+
+    <!-- Skill Point Titles -->
+    <div id="cv-title" class="skill-title">Curriculum Vitae</div>
+    <div id="it-title" class="skill-title">Information Technology</div>
+    <div id="gd-title" class="skill-title">Graphic Design</div>
+
+    <!-- External JS files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
+
+    <!-- Main rotation script -->
+    <script type="module" src="js/rotation.js" defer></script>
+    <!-- Skill-specific scripts -->
+    <script type="module" src="js/cv.js"></script>
+    <script type="module" src="js/it.js"></script>
+    <script type="module" src="js/gd.js"></script>
+
+    <script src="https://threejs.org/examples/js/loaders/FontLoader.js"></script>
+    <script src="https://threejs.org/examples/js/geometries/TextGeometry.js"></script>
+</body>
+</html>
