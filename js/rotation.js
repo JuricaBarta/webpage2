@@ -24,7 +24,7 @@ scene.add(sphere);
 
 // Adjust the camera position inside the sphere
 camera.position.set(0, 0, 0);  // Position the camera at the center of the sphere
-camera.lookAt(0, 0, -1); // Make the camera look at the center of the sphere
+camera.lookAt(0, 0, -300); // Make the camera look at the center of the sphere
 
 // Add a point light for illumination
 const pointLight = new THREE.PointLight(0xffffff, 1.5, 1000); // White light with intensity 1.5
@@ -54,24 +54,34 @@ window.addEventListener('resize', function() {
 
 // Rotation control: Only horizontal rotation (Y-axis)
 let isDragging = false;
-let previousMousePosition = { x: 0 };
+let previousMousePosition = { x: 0, y: 0 };
+let rotationEnabled = false;  // New variable to track if mouse movement should affect rotation
 
+// Set up mouse events for dragging
 window.addEventListener('mousedown', (event) => {
     if (event.button === 0) {
         isDragging = true;
         previousMousePosition.x = event.clientX;
+        previousMousePosition.y = event.clientY;
+        rotationEnabled = true;  // Enable camera rotation when mouse is pressed
     }
 });
 
 window.addEventListener('mouseup', () => {
     isDragging = false;
+    rotationEnabled = false;  // Disable camera rotation when mouse is released
 });
 
 window.addEventListener('mousemove', (event) => {
-    if (isDragging) {
+    if (rotationEnabled) {  // Only rotate the camera when mouse button is held down
         const deltaX = event.clientX - previousMousePosition.x;
+        const deltaY = event.clientY - previousMousePosition.y;
         previousMousePosition.x = event.clientX;
-        scene.rotation.y -= deltaX * 0.01; // Horizontal rotation only
+        previousMousePosition.y = event.clientY;
+
+        // Update the camera's rotation (based on mouse movement)
+        scene.rotation.y -= deltaX * 0.01;  // Horizontal rotation
+        scene.rotation.x += deltaY * 0.01;  // Vertical rotation (optional)
     }
 });
 

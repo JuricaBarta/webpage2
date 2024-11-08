@@ -1,6 +1,4 @@
-
-
-function setupITSphere(scene, camera, position = { x: -200, y: -60, z: -100 }) {
+function setupITSphere(scene, camera, position = { x: -150, y: -60, z: -100 }) {
     const itMaterial = new THREE.MeshPhongMaterial({
         color: 0xff0000, // Red for Information Technology
         emissive: 0xff0000,
@@ -58,7 +56,82 @@ function setupITSphere(scene, camera, position = { x: -200, y: -60, z: -100 }) {
     }
 
     function displayMessage(message) {
-        document.getElementById('it-title').innerText = message;
+        const messageDiv = document.createElement('div');
+        messageDiv.style.position = 'absolute';
+        messageDiv.style.top = '10px';
+        messageDiv.style.left = '50%';
+        messageDiv.style.transform = 'translateX(-50%)';
+        messageDiv.style.padding = '10px';
+        messageDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        messageDiv.style.color = 'white';
+        messageDiv.style.borderRadius = '5px';
+        messageDiv.textContent = message;
+
+        document.body.appendChild(messageDiv);
+
+        setTimeout(() => {
+            document.body.removeChild(messageDiv);
+        }, 3000);
+    }
+
+    function showPopUp() {
+        const existingPopup = document.getElementById('popup');
+        if (!existingPopup) {
+            const popup = document.createElement('div');
+            popup.id = 'popup';
+            popup.style.position = 'fixed';
+            popup.style.top = '50%';
+            popup.style.left = '50%';
+            popup.style.transform = 'translate(-50%, -50%)';
+            popup.style.padding = '20px';
+            popup.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+            popup.style.color = 'white';
+            popup.style.borderRadius = '10px';
+            popup.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.5)';
+            popup.style.zIndex = '9999';
+            popup.style.display = 'flex';
+            popup.style.flexDirection = 'column';
+            popup.style.textAlign = 'center';
+            popup.style.width = '250px';  // Adjust the width of the popup to ensure the X button has space
+    
+            // Create the text layer
+            const textLayer = document.createElement('div');
+            textLayer.style.marginTop = '20px';  // Ensure text has space from the top
+            const text = document.createElement('p');
+            text.textContent = "Information Technology skills coming soon!";
+            textLayer.appendChild(text);
+            popup.appendChild(textLayer);
+    
+            // Create the X button layer (upper right corner)
+            const buttonLayer = document.createElement('div');
+            buttonLayer.style.position = 'absolute';
+            buttonLayer.style.top = '10px';
+            buttonLayer.style.right = '10px';
+    
+            const closeButton = document.createElement('button');
+            closeButton.textContent = 'X';
+            closeButton.style.backgroundColor = 'red';
+            closeButton.style.color = 'white';
+            closeButton.style.border = 'none';
+            closeButton.style.padding = '5px 10px';
+            closeButton.style.cursor = 'pointer';
+            closeButton.onclick = () => {
+                closePopUp();
+                location.reload(); // Refresh the page to reset everything back to rotation.js
+            };
+    
+            buttonLayer.appendChild(closeButton);
+            popup.appendChild(buttonLayer);
+    
+            document.body.appendChild(popup);
+        }
+    }
+
+    function closePopUp() {
+        const popup = document.getElementById('popup');
+        if (popup) {
+            popup.remove();
+        }
     }
 
     window.addEventListener('click', function(event) {
@@ -72,7 +145,8 @@ function setupITSphere(scene, camera, position = { x: -200, y: -60, z: -100 }) {
         const intersects = raycaster.intersectObjects([itCube]);
         if (intersects.length > 0) {
             zoomToPoint(camera, itCube.position);
-            displayMessage("This is the Information Technology section. Add more details here.");
+            showPopUp();
+            displayMessage("This is the Information Technology section.");
         }
     });
 }
